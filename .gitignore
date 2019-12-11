@@ -1,0 +1,6 @@
+*.sqlite3
+__pycache__
+*.pyc
+[0-9][0-9][0-9][0-9]_initial.py
+segmodel/segmodel_weights.h5
+segmodel/segmodel_architecture.json

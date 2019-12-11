@@ -1,0 +1,22 @@
+<!-- templates/article_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="article-entry">
+  <h2>{{ object.title }}</h2>
+    <p>by {{ object.author }} | {{ object.date }}</p>
+    {% if article.flair %}
+      {% if not article.flag_show_only %}
+        {{ article.predict }}
+      {% endif %}
+    <img src="{{ article.get_gif_url }}" alt="Segmentation prediction">
+    {% else %}
+    {{ article.body }}
+    {% endif %}
+</div>
+<p><a href="{% url 'article_download' article.pk %}">Download</a> | 
+  <a href="{% url 'article_edit' article.pk %}">Edit</a> | 
+  <a href="{% url 'article_delete' article.pk %}">Delete</a></p>
+<p>Back to <a href="{% url 'article_list' %}">All articles</a></p>
+ 
+{% endblock content %}
