@@ -1,0 +1,22 @@
+<!-- templates/order_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="order-entry">
+  <h2>{{ object.title }}</h2>
+    <p>by {{ object.author }} | {{ object.date }}</p>
+    {% if order.flair %}
+      {% if not order.flag_show_only %}
+        {{ order.predict }}
+      {% endif %}
+    <img src="{{ order.get_gif_url }}" alt="Segmentation prediction">
+    {% else %}
+    {{ order.body }}
+    {% endif %}
+</div>
+<p><a href="{% url 'order_download' order.pk %}">Download</a> | 
+  <a href="{% url 'order_edit' order.pk %}">Edit</a> | 
+  <a href="{% url 'order_delete' order.pk %}">Delete</a></p>
+<p>Back to <a href="{% url 'order_list' %}">All orders</a></p>
+ 
+{% endblock content %}

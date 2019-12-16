@@ -4,15 +4,15 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 
-from .models import Article
+from .models import Order
 
 import os
 from django.http import HttpResponse, Http404
 
 
 def download_file_view(request, pk):
-    article = Article.objects.get(pk=pk)
-    pred_path = article.get_pred_path()
+    order = Order.objects.get(pk=pk)
+    pred_path = order.get_pred_path()
     if os.path.exists(pred_path):
         with open(pred_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="None")
@@ -21,49 +21,49 @@ def download_file_view(request, pk):
     return Http404
 
 
-class ArticleListView(LoginRequiredMixin, ListView):
-    model = Article
-    template_name = 'article_list.html'
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'order_list.html'
     login_url = 'login' # redirect to OUR CUSTOM login url
 
 
-class ArticleDetailView(LoginRequiredMixin, DetailView):
-    model = Article
-    template_name = 'article_detail.html'
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = 'order_detail.html'
     login_url = 'login' # redirect to OUR CUSTOM login url
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
-    model = Article
-    template_name = 'article_edit.html'
+class OrderUpdateView(LoginRequiredMixin, UpdateView):
+    model = Order
+    template_name = 'order_edit.html'
     login_url = 'login' # redirect to OUR CUSTOM login url
     fields = ('title', 'body') # allow updating these
 
     def dispatch(self, request, *args, **kwargs):
-        # Disable non-authors to update article
+        # Disable non-authors to update order
         obj = self.get_object()
         if obj.author != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
 
-class ArticleDeleteView(LoginRequiredMixin, DeleteView):
-    model = Article
-    template_name = 'article_delete.html'
+class OrderDeleteView(LoginRequiredMixin, DeleteView):
+    model = Order
+    template_name = 'order_delete.html'
     login_url = 'login' # redirect to OUR CUSTOM login url
-    success_url = reverse_lazy('article_list')
+    success_url = reverse_lazy('order_list')
 
     def dispatch(self, request, *args, **kwargs):
-        # Disable non-authors to update article
+        # Disable non-authors to update order
         obj = self.get_object()
         if obj.author != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
-    model = Article
-    template_name = 'article_new.html'
+class OrderCreateView(LoginRequiredMixin, CreateView):
+    model = Order
+    template_name = 'order_new.html'
     fields = ('title', 'body', 'flair', 't1', 't1ce', 't2')
     login_url = 'login' # redirect to OUR CUSTOM login url
 

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Orders{% endblock title %}
+
+{% block content %}
+  {% for order in object_list %}
+    <div class="card">
+      <div class="card-header">
+        <span class="font-weight-bold"><a href="{{ order.get_absolute_url }}">{{ order.title }}</a></span> &middot;
+        <span class="text-muted">by {{ order.author }} | {{ order.date }}</span>
+      </div>
+      <div class="card-body">
+        {% if order.flair %}
+            <img src="{{ order.get_gif_url }}" alt="Segmentation prediction">
+        {% else %}
+            {{ order.body }}
+        {% endif %}
+      </div>
+      <div class="card-footer text-center text-muted">
+        <a href="{% url 'order_download' order.pk %}">Download</a> | 
+        <a href="{% url 'order_edit' order.pk %}">Edit</a> |
+        <a href="{% url 'order_delete' order.pk %}">Delete</a>
+      </div>
+    </div>
+    <br />
+  {% endfor %}
+{% endblock content %}

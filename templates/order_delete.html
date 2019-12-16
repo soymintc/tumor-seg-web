@@ -1,10 +1,10 @@
-<!-- templates/article_delete.html -->
+<!-- templates/order_delete.html -->
 {% extends 'base.html' %}
 
 {% block content %}
   <h1>Delete</h1>
   <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ article.title }}"?</p>
+    <p>Are you sure you want to delete "{{ order.title }}"?</p>
     <button class="btn btn-danger ml-2" type="submit">Confirm</button>
   </form>
 {% endblock content %}
