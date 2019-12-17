@@ -1,0 +1,20 @@
+<!-- templates/train_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="order-entry">
+  <div class='container'>
+    {% if submitted_kill %}
+      <p>Killed job {{ train.pid }}.</p>
+    {% else %}
+      <p>Job {{ train.pid }} already killed.</p>
+    {% endif %} 
+
+    <p>
+      <a href="{% url 'train_detail' train.pk %}">Job detail</a> | 
+      <a href="{% url 'train_log' train.pk %}">View log</a> |
+      <a href="{% url 'train_kill' train.pk %}">View in TensorBoard</a>
+    </p>
+  </div>
+</div>
+{% endblock content %} 

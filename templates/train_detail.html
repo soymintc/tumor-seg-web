@@ -1,0 +1,19 @@
+<!-- templates/train_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="order-entry">
+  <h2>{{ train.title }}</h2>
+    <p>by {{ train.author }} | {{ train.date }}</p>
+      <div class='container'>
+        <p>Job {{ train.pid }}</p>
+        <p>Running with <br> {{ train.cmd_str }}</p>
+        
+        <p>
+          <a href="{% url 'train_kill' train.pk %}">Kill job</a> | 
+          <a href="{% url 'train_log' train.pk %}">View log</a> |
+          <a href="{% url 'train_kill' train.pk %}">View in TensorBoard</a>
+        </p>
+      </div>
+</div>
+{% endblock content %} 

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
     'orders.apps.OrdersConfig',
+    'train.apps.TrainConfig',
 
     # 3rd party
     'crispy_forms',
@@ -163,3 +164,4 @@ TF_SESSION = tf.Session()
 keras.backend.set_session(TF_SESSION)
 
 
+NII_DIR = '/home/smchoi/brats/orig_data'
