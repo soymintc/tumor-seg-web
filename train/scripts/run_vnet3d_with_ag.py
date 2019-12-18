@@ -21,6 +21,7 @@ if __name__ == '__main__':
     parser.add_argument('--n_validation', required=True, type=int)
     parser.add_argument('--n_test', required=True, type=int)
     parser.add_argument('--optimizer', '-op', required=True, default='adam')
+    parser.add_argument('--author', '-a', required=True)
     parser.add_argument('--print_summary_only', action='store_true')
     parser.set_defaults(print_summary_only=False)
 
@@ -97,14 +98,14 @@ if __name__ == '__main__':
         patience=15, verbose=1, mode='max', baseline=None, 
         restore_best_weights=True)
     time_tag = time.strftime('%Y%m%d_%H%M%S', time.localtime())
-    tf_log_dir = 'tf_logs'
+    tb_log_dir = os.path.join('tb_logs', args.author)
     try:
-        os.system('mkdir -p ' + tf_log_dir)
+        os.system('mkdir -p ' + tb_log_dir)
     except:
         pass
-    if not os.path.exists(tf_log_dir):
-        raise Exception("{} does not exist".format(tf_log_dir))
-    log_dir = os.path.join(tf_log_dir, args.core_tag + '_' + time_tag)
+    if not os.path.exists(tb_log_dir):
+        raise Exception("{} does not exist".format(tb_log_dir))
+    log_dir = os.path.join(tb_log_dir, args.core_tag + '_' + time_tag)
     tensorboard_cb = TensorBoard(log_dir=log_dir)
     
     callbacks_list = [checkpoint_cb, 

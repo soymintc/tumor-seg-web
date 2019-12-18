@@ -5,6 +5,7 @@ from .views import (
     train_detail_view, 
     train_kill_view,
     train_log_view,
+#    train_tb_view,
 )
 
 urlpatterns = [
@@ -12,4 +13,5 @@ urlpatterns = [
     path('<int:pk>/detail', train_detail_view, name='train_detail'),
     path('<int:pk>/kill', train_kill_view, name='train_kill'),
     path('<int:pk>/log', train_log_view, name='train_log'),
+#    path('<int:pk>/tb', train_tb_view, name='train_tb_log'),
 ]

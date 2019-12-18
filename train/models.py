@@ -56,6 +56,10 @@ class Train(models.Model):
         log_dir = os.path.join(settings.BASE_DIR, 'train', 'train_logs')
         return os.path.join(log_dir, self.title + '.log')
 
+    def get_tb_log_dir(self):
+        log_dir = os.path.join(settings.BASE_DIR, 'train', 'tb_logs', self.author)
+        return os.path.join(log_dir, self.title)
+
     def get_absolute_url(self): # page to return after save
         #return reverse('train_detail', args=[str(self.id)])
         #return reverse('train_log', args=[self.pk])

@@ -43,6 +43,12 @@ def train_kill_view(request, pk):
     return render(request, 'train_kill.html', context)
 
 
+#@staff_member_required
+#def train_tb_view(request, pk):
+#    train = get_object_or_404(Train, pk=pk)
+#    log_dir = train.get_tb_log_dir()
+
+
 @staff_member_required
 def train_log_view(request, pk):
     train = get_object_or_404(Train, pk=pk)
@@ -55,7 +61,6 @@ def train_log_view(request, pk):
 @staff_member_required
 def train_detail_view(request, pk):
     train = get_object_or_404(Train, pk=pk)
-    #train = Train.objects.get(pk=pk)
     script = os.path.join(settings.BASE_DIR, 'train', 'scripts', 'run_vnet3d_with_ag.py')
     assert os.path.exists(script), "[ERROR] {} does not exist".format(script)
 
