@@ -1,5 +1,4 @@
-# brain_tumor_segmentation_web_service
-Brain tumor segmentation web service to predict the segmentation of 3D brain MRI images.
+A web service to predict the brain tumor segmentations of 3D brain MRI images.
 Assumes that you run the scripts using python3 and that your tensorflow (v1.15) is supported by GPUs. 
 
 Install the necessary packages as follows:<br>
