@@ -1,12 +1,14 @@
 *.sqlite3
 __pycache__
 *.pyc
+*.swp
 *.nii.gz
 *.gif
 *.bak
 *_logs
 [0-9][0-9][0-9][0-9]_initial.py
 [0-9][0-9][0-9][0-9]_auto.py
+[0-9][0-9][0-9][0-9]_*.py
 models
 segmodel/segmodel_weights.h5
 segmodel/segmodel_architecture.json

@@ -37,7 +37,7 @@ class OrderUpdateView(LoginRequiredMixin, UpdateView):
     model = Order
     template_name = 'order_edit.html'
     login_url = 'login' # redirect to OUR CUSTOM login url
-    fields = ('title', 'body') # allow updating these
+    fields = ('title', 'flair', 't1', 't1ce', 't2') # allow updating these
 
     def dispatch(self, request, *args, **kwargs):
         # Disable non-authors to update order
@@ -64,7 +64,7 @@ class OrderDeleteView(LoginRequiredMixin, DeleteView):
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     template_name = 'order_new.html'
-    fields = ('title', 'body', 'flair', 't1', 't1ce', 't2')
+    fields = ('title', 'flair', 't1', 't1ce', 't2')
     login_url = 'login' # redirect to OUR CUSTOM login url
 
     def form_valid(self, form): # automatically set author

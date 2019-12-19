@@ -1,0 +1,16 @@
+body {
+  font-family: 'Calibri';
+  font-size: 15px;
+}
+
+.container {
+  font-family: 'Calibri';
+}
+
+form > p {
+  font-size: 15px;
+}
+
+.log {
+  font-family: 'Consolas';
+}

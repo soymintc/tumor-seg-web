@@ -13,7 +13,7 @@
     <p>
       <a href="{% url 'train_detail' train.pk %}">Job detail</a> | 
       <a href="{% url 'train_log' train.pk %}">View log</a> |
-      <a href="{% url 'train_kill' train.pk %}">View in TensorBoard</a>
+      <a href="http://35.201.171.8:{{ train.port }}/#scalars&tagFilter=." target="_blank">View in TensorBoard</a>
     </p>
   </div>
 </div>
