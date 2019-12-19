@@ -10,11 +10,21 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
+import socket
+from contextlib import closing
 
 from .models import Train
 
 from django.http import HttpResponse, Http404
 
+
+def find_free_port():
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        print('s, socket.AF_INET, socket.SOCK_STREAM', s, socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(('', 0))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        print(s.getsockname())
+        return s.getsockname()[1]
 
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -34,19 +44,16 @@ def train_kill_view(request, pk):
     train = get_object_or_404(Train, pk=pk)
     if train.pid_exists():
         os.kill(train.pid, signal.SIGTERM)
+        os.kill(train.tb_pid, signal.SIGTERM)
         context = {'submitted_kill': True}
-        print('[LOG]', train.pid_exists(), context)
+        print('[LOG:job]', train.pid_exists(), context)
+        print('[LOG:tb]', train.tb_pid_exists(), context)
     else:
         context = {'submitted_kill': Fale}
-        print('[LOG]', train.pid_exists(), context)
+        print('[LOG:job]', train.pid_exists(), context)
+        print('[LOG:tb]', train.tb_pid_exists(), context)
     context['train'] = train
     return render(request, 'train_kill.html', context)
-
-
-#@staff_member_required
-#def train_tb_view(request, pk):
-#    train = get_object_or_404(Train, pk=pk)
-#    log_dir = train.get_tb_log_dir()
 
 
 @staff_member_required
@@ -84,13 +91,20 @@ def train_detail_view(request, pk):
 
         '--optimizer', train.optimizer,
         '--group_size', train.group_size,
-        '--f_root', train.filters_root,]
+        '--f_root', train.filters_root,
+
+        '--author', train.author.username,]
         
         #'> {} 2>&1'.format(log_path),]
     if train.augment:
         #cmd_args += ['--augment'] ##@##
         pass
     cmd_args = [str(_) for _ in cmd_args]
+
+    train.port = find_free_port()
+    tb_args = ['tensorboard',
+        '--logdir={}'.format(train.get_tb_log_dir()),
+        '--port={}'.format(train.port)]
 
     if train.run_phase():
         with open(log_path,"wb") as out, open(log_path,"wb") as err:
@@ -99,6 +113,10 @@ def train_detail_view(request, pk):
         train.pid = child.pid
         train.cmd_str = '\n'.join([cmd_args[i] + ' ' + cmd_args[i+1]
             for i in range(0, len(cmd_args), 2)])
+
+        tb_child = Popen(tb_args) # run tensorboard w/ logdir and port
+        train.tb_pid = tb_child.pid
+
         train.save()
     else:
         pass

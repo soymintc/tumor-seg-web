@@ -38,9 +38,11 @@ class Train(models.Model):
     filters_root = models.PositiveIntegerField()
     augment = models.BooleanField()
 
-    # Non-input attrs    
-    pid = models.PositiveIntegerField(default=0)
-    cmd_str = models.CharField(max_length=1000, default='.')
+    # Non-input attrs
+    pid = models.PositiveIntegerField(default=0, null=True, blank=True)
+    tb_pid = models.PositiveIntegerField(default=0, null=True, blank=True)
+    port = models.PositiveIntegerField(default=0, null=True, blank=True) # assign unused port
+    cmd_str = models.CharField(max_length=1000, default='.', null=True, blank=True)
 
 
     def __str__(self):
@@ -48,6 +50,9 @@ class Train(models.Model):
     
     def pid_exists(self):
         return psutil.pid_exists(self.pid)
+
+    def tb_pid_exists(self):
+        return psutil.pid_exists(self.tb_pid)
 
     def run_phase(self):
         return self.pid == 0
@@ -57,8 +62,8 @@ class Train(models.Model):
         return os.path.join(log_dir, self.title + '.log')
 
     def get_tb_log_dir(self):
-        log_dir = os.path.join(settings.BASE_DIR, 'train', 'tb_logs', self.author)
-        return os.path.join(log_dir, self.title)
+        log_dir = os.path.join(settings.BASE_DIR, 'train', 'tb_logs', self.author.username)
+        return log_dir
 
     def get_absolute_url(self): # page to return after save
         #return reverse('train_detail', args=[str(self.id)])

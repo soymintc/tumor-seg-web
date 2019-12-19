@@ -79,7 +79,7 @@ if __name__ == '__main__':
     test_ids = sids[n_train+n_val : n_train+n_val+n_test]
     print("IDs", len(sids), len(train_ids), len(valid_ids), len(test_ids), n_train)
     epochs = 100
-    h5_dir = 'models'
+    h5_dir = 'train/models'
     if not os.path.exists(h5_dir):
         os.system('mkdir {}'.format(h5_dir))
     prefix = os.path.join(h5_dir, args.core_tag + 
@@ -98,11 +98,12 @@ if __name__ == '__main__':
         patience=15, verbose=1, mode='max', baseline=None, 
         restore_best_weights=True)
     time_tag = time.strftime('%Y%m%d_%H%M%S', time.localtime())
-    tb_log_dir = os.path.join('tb_logs', args.author)
+    tb_log_dir = os.path.join('train/tb_logs', args.author)
     try:
         os.system('mkdir -p ' + tb_log_dir)
+        print('[LOG] Created TensorBoard log dir {}'.format(tb_log_dir))
     except:
-        pass
+        print('[LOG] Failed to create TensorBoard log dir {}'.format(tb_log_dir))
     if not os.path.exists(tb_log_dir):
         raise Exception("{} does not exist".format(tb_log_dir))
     log_dir = os.path.join(tb_log_dir, args.core_tag + '_' + time_tag)
@@ -141,11 +142,6 @@ if __name__ == '__main__':
     else:
         raise Exception('[ERROR] args.optimizer = {}'.format(args.optimizer))
     
-    if len(existing_models) > 0: # if saved model exists
-        print(existing_models)
-        best_model = existing_models[0] # sorted ix 0 has lowest vl
-    #    model.load_weights(best_model)
-        print(best_model)
     model.compile(optimizer=optimizer, loss=dice_loss, metrics=[dice_coefficient])
 
     if args.print_summary_only:
