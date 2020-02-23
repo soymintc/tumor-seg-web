@@ -1,6 +1,6 @@
 A web service to predict the brain tumor segmentations of 3D brain MRI images.<br>
 Below is a web page example of the prediction result.<br>
-<img src="https://s5.gifyu.com/images/brain_seg_webd38a9413a306fdc9.gif" width="466" height="380" /><br>
+![Example prediction gif](example.gif)
 Assumes that you run the scripts using python3 and that your tensorflow (v1.15) is supported by GPUs. 
 
 Install the necessary packages as follows:<br>
