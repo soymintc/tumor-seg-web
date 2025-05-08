@@ -1,4 +1,4 @@
-django==4.2.20
+django==4.2.21
 django-crispy-forms==1.8.1
 imageio==2.6.1
 Keras==2.13.1
